@@ -1,9 +1,101 @@
 <template>
-  <h1>Write a feedback type</h1>
+  <div class="flex flex-col items-center justify-center w-full my-5">
+    <textarea
+      v-model="state.feedback"
+      class="border-2 w-full h-24 border-solid rounded-lg border-gray-300 p-2 resize-none focus:outline-none">
+    </textarea>
+    <button
+      :disabled="submitButtonIsDisabled"
+      :class="{
+        'opacity-50': state.isLoading,
+        'bg-gray-100 text-gray-500 opacity-50': submitButtonIsDisabled,
+        'bg-brand-main text-white': !submitButtonIsDisabled
+      }"
+      @click="submitFeedback"
+      class="
+        flex flex-col py-2 w-full mt-3 rounded-lg items-center
+        justify-center font-black focus:outline-none transition-all duration-200
+      ">
+      <icon v-if="state.isLoading" name="loading" size="18" color="white" class="animate-spin"/>
+      <template v-else >Enviar Feedback</template>
+    </button>
+  </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import useNavigation from '@/hooks/navigation'
+import Icon from '../Icon/index.vue'
+import { computed, ComputedRef, defineComponent, reactive, SetupContext } from 'vue'
+import services from '../../services'
+import useStore from '../../hooks/store'
+import { setMessage } from '../../store'
 
+type State = {
+  feedback: string;
+  isLoading: boolean;
+  hasError: Error | null;
 }
+
+interface SetupReturn {
+  state: State,
+  handleError(error: Error): void;
+  submitFeedback(): void;
+  submitButtonIsDisabled: ComputedRef<boolean>
+}
+
+export default defineComponent({
+  components: { Icon },
+  setup (): SetupReturn {
+    const store = useStore()
+    const { setErrorState, setSuccessState } = useNavigation()
+
+    const state = reactive<State>({
+      feedback: '',
+      isLoading: false,
+      hasError: null
+    })
+
+    const submitButtonIsDisabled = computed<boolean>(() => {
+      return !state.feedback.length
+    })
+
+    function handleError (error: Error): void{
+      state.hasError = error
+      state.isLoading = false
+      setErrorState()
+    }
+
+    async function submitFeedback (): Promise<void> {
+      setMessage(state.feedback)
+      state.isLoading = true
+      try {
+        const response = await services.feedbacks.create({
+          type: store.feedbackType,
+          text: store.message,
+          page: store.currentPage,
+          apiKey: store.apiKey,
+          device: window.navigator.userAgent,
+          fingerprint: store.fingerprint
+        })
+
+        if (!response.errors) {
+          setSuccessState()
+        } else {
+          setErrorState()
+        }
+
+        state.isLoading = false
+      } catch (error) {
+        handleError(error)
+      }
+    }
+
+    return {
+      state,
+      handleError,
+      submitFeedback,
+      submitButtonIsDisabled
+    }
+  }
+})
 </script>

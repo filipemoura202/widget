@@ -8,7 +8,7 @@
         class="relative w-full flex px-4">
         <button
           v-if="showCopyRightInfo"
-          @click="() => ({})"
+          @click="back"
           :disabled="canGoBack"
           :class="{ invisible: canGoBack }"
           class="text-xl text-gray-800 focus:outline-none"
@@ -46,7 +46,7 @@ import { brand } from '../../../pallete'
 import colors from 'tailwindcss/colors'
 import Icon from '../../components/Icon/index.vue'
 import Wizard from '../../components/Wizard/index.vue'
-import useNavigation, { Navigation } from '../../hooks/Navigation'
+import useNavigation, { Navigation } from '../../hooks/navigation'
 
 interface SetupReturn {
   emit: SetupContext['emit'],

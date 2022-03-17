@@ -1,4 +1,5 @@
 import axios from 'axios'
+import FeedbacksService from './feedbacks'
 
 type ApiType = {
   [name: string]: string;
@@ -24,4 +25,6 @@ httpClient.interceptors.response.use(response => response, error => {
   return error
 })
 
-export default {}
+export default {
+  feedbacks: FeedbacksService(httpClient)
+}
