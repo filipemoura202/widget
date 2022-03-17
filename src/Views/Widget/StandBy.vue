@@ -1,5 +1,6 @@
 <template>
    <div
+      id="standy-button"
       @click="() => emit('open-box')"
       class="
           fixed z-50 rounded-full shadow-xl font-regular text-xl text-brand-gray

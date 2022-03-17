@@ -1,8 +1,10 @@
-// https://docs.cypress.io/api/introduction/api.html
+const APP_URL = process.env.APP_URL || 'http://localhost:8080'
 
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
-    cy.visit('/')
-    cy.contains('h1', 'Welcome to Your Vue.js + TypeScript App')
+describe('Home', () => {
+  it('Visits the main page and should render a standy by button', () => {
+    cy.visit(APP_URL)
+    cy.wait(900)
+    cy.get('#fisrt-div-playground')
+    cy.get('#standy-button')
   })
 })

@@ -4,7 +4,7 @@ module.exports = {
     '**/*.spec.js'
   ],
   transform: {
-    '.*\\.(vue)$': '@vue/vue3-jest',
+    '.*\\.(vue)$': 'vue-jest',
     '^.+\\.(ts|tsx)$': 'ts-jest'
   }
 }

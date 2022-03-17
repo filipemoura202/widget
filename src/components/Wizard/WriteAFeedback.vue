@@ -25,7 +25,7 @@
 <script lang="ts">
 import useNavigation from '@/hooks/navigation'
 import Icon from '../Icon/index.vue'
-import { computed, ComputedRef, defineComponent, reactive, SetupContext } from 'vue'
+import { computed, ComputedRef, defineComponent, reactive } from 'vue'
 import services from '../../services'
 import useStore from '../../hooks/store'
 import { setMessage } from '../../store'

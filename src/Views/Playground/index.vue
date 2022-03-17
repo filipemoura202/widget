@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-3/4 flex flex-col items-center justify-center bg-brand-main">
+    <div id="fisrt-div-playground" class="w-full h-3/4 flex flex-col items-center justify-center bg-brand-main">
         <h1 class="text-6xl font-black text-brand-gray"> Playground </h1>
         <p class="text-2xl mt-3 font-regular text-brand-gray"> Este site é utilizado para o teste de uso do widget </p>
     </div>
